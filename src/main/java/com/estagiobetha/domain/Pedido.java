@@ -1,18 +1,17 @@
 package com.estagiobetha.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Cidade implements Serializable {
+public class Pedido implements Serializable {
 	/**
 	 * 
 	 */
@@ -21,23 +20,20 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
+	private Date instante;
 	
+	@OneToOne(cascade=CascadeType.ALL, mappedBy = "pedido")
+	private Pagamento pagamento;
 	
-	@ManyToOne
-	@JoinColumn(name="estado_id")
-	@JsonManagedReference
-	private Estado estado;
-	
-	public Cidade () {
+	public Pedido() {
 		
 	}
 
-	public Cidade(Integer id, String nome, Estado estado) {
+	public Pedido(Integer id, Date instante, Pagamento pagamento) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.estado = estado;
+		this.instante = instante;
+		this.pagamento = pagamento;
 	}
 
 	public Integer getId() {
@@ -48,20 +44,20 @@ public class Cidade implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Date getInstante() {
+		return instante;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setInstante(Date instante) {
+		this.instante = instante;
 	}
 
-	public Estado getEstado() {
-		return estado;
+	public Pagamento getPagamento() {
+		return pagamento;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
 	}
 
 	@Override
@@ -80,7 +76,7 @@ public class Cidade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cidade other = (Cidade) obj;
+		Pedido other = (Pedido) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
