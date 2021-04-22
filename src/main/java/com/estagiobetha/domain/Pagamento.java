@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
@@ -11,7 +13,8 @@ import javax.persistence.OneToOne;
 import com.estagiobetha.domain.enums.EstadoPagamento;
 
 @Entity
-public class Pagamento implements Serializable {
+@Inheritance(strategy=InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable {
 	/**
 	 * 
 	 */
@@ -19,7 +22,7 @@ public class Pagamento implements Serializable {
 	
 	@Id
 	private Integer id;
-	private EstadoPagamento estado;
+	private Integer estado;
 	
 	
 	@OneToOne
@@ -27,21 +30,16 @@ public class Pagamento implements Serializable {
 	@MapsId
 	private Pedido pedido;
 	
-	private Cliente cliente;
-	
-	private Endereco enderecoDeEntrega;
 	
 	public Pagamento() {
 		
 	}
 
-	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido, Cliente cliente, Endereco enderecoDeEntrega) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado;
+		this.estado = estado.getCod();
 		this.pedido = pedido;
-		this.cliente = cliente;
-		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
 
 	public Integer getId() {
@@ -53,11 +51,11 @@ public class Pagamento implements Serializable {
 	}
 
 	public EstadoPagamento getEstado() {
-		return estado;
+		return EstadoPagamento.toEnum(estado);
 	}
 
 	public void setEstado(EstadoPagamento estado) {
-		this.estado = estado;
+		this.estado = estado.getCod();
 	}
 
 	public Pedido getPedido() {
@@ -68,21 +66,6 @@ public class Pagamento implements Serializable {
 		this.pedido = pedido;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Endereco getEnderecoDeEntrega() {
-		return enderecoDeEntrega;
-	}
-
-	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
-		this.enderecoDeEntrega = enderecoDeEntrega;
-	}
 
 	@Override
 	public int hashCode() {
