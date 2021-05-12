@@ -296,6 +296,13 @@ ALTER TABLE public.telefone OWNER TO postgres;
 --
 
 COPY public.categoria (id, nome) FROM stdin;
+1	INFORMÁTICA
+2	ESCRITÓRIO
+3	Cama mesa e banho
+4	Eletrônicos
+5	Jardinagem
+6	Decoração
+7	Perfumaria
 \.
 
 
@@ -304,6 +311,9 @@ COPY public.categoria (id, nome) FROM stdin;
 --
 
 COPY public.cidade (id, nome, estado_id) FROM stdin;
+1	Uberlândia	1
+2	São Paulo	2
+3	Campinas	2
 \.
 
 
@@ -312,6 +322,9 @@ COPY public.cidade (id, nome, estado_id) FROM stdin;
 --
 
 COPY public.cliente (id, cpf_ou_cnpj, email, nome, tipo) FROM stdin;
+1	98789798778	maria@gmail.com	Maria Silva	1
+2	56415845589	michel@gmail.com	Michel	1
+3	9878979878	Rodrigo@gmail.com	Rodrigo	2
 \.
 
 
@@ -320,6 +333,8 @@ COPY public.cliente (id, cpf_ou_cnpj, email, nome, tipo) FROM stdin;
 --
 
 COPY public.endereco (id, bairro, cep, complemento, logradouro, numero, cidade_id, cliente_id) FROM stdin;
+1	Jardim	88805412	Apto 203	Rua Flores	300	1	1
+2	Centro	6545645	Sala 800	Avenida Matos	105	2	1
 \.
 
 
@@ -328,6 +343,8 @@ COPY public.endereco (id, bairro, cep, complemento, logradouro, numero, cidade_i
 --
 
 COPY public.estado (id, nome) FROM stdin;
+1	Minas Gerais
+2	São Paulo
 \.
 
 
@@ -336,6 +353,9 @@ COPY public.estado (id, nome) FROM stdin;
 --
 
 COPY public.item_pedido (desconto, preco, quantidade, pedido_id, produto_id) FROM stdin;
+0	2000	1	1	1
+0	80	2	1	3
+100	800	1	2	2
 \.
 
 
@@ -344,6 +364,8 @@ COPY public.item_pedido (desconto, preco, quantidade, pedido_id, produto_id) FRO
 --
 
 COPY public.pagamento (pedido_id, estado) FROM stdin;
+1	2
+2	1
 \.
 
 
@@ -352,6 +374,7 @@ COPY public.pagamento (pedido_id, estado) FROM stdin;
 --
 
 COPY public.pagamento_com_boleto (data_pagamento, data_vencimento, pedido_id) FROM stdin;
+\N	2017-01-20 00:00:00	2
 \.
 
 
@@ -360,6 +383,7 @@ COPY public.pagamento_com_boleto (data_pagamento, data_vencimento, pedido_id) FR
 --
 
 COPY public.pagamento_com_cartao (numero_de_parcelas, pedido_id) FROM stdin;
+6	1
 \.
 
 
@@ -368,6 +392,8 @@ COPY public.pagamento_com_cartao (numero_de_parcelas, pedido_id) FROM stdin;
 --
 
 COPY public.pedido (id, instante, cliente_id, endereco_de_entrega_id) FROM stdin;
+1	2017-01-30 10:32:00	1	1
+2	2017-01-10 19:35:00	1	2
 \.
 
 
@@ -376,6 +402,17 @@ COPY public.pedido (id, instante, cliente_id, endereco_de_entrega_id) FROM stdin
 --
 
 COPY public.produto (id, nome, preco) FROM stdin;
+1	Computador	2000
+2	Impressora	800
+3	Mouse	80
+4	Mesa de escritório	300
+5	Toalha	50
+6	Colcha	200
+7	TV true color	1200
+8	Roçadeira	800
+9	Abajour	100
+10	Pendente	180
+11	Shampoo	90
 \.
 
 
@@ -384,6 +421,21 @@ COPY public.produto (id, nome, preco) FROM stdin;
 --
 
 COPY public.produto_categoria (produto_id, categoria_id) FROM stdin;
+1	1
+1	4
+2	1
+2	2
+2	4
+3	1
+3	4
+4	2
+5	3
+6	3
+7	4
+8	5
+9	6
+10	6
+11	7
 \.
 
 
@@ -392,6 +444,12 @@ COPY public.produto_categoria (produto_id, categoria_id) FROM stdin;
 --
 
 COPY public.telefone (cliente_id, telefones) FROM stdin;
+1	27363323
+1	938993893
+2	559626526
+2	93993893
+3	93223893
+3	6513512531
 \.
 
 
@@ -399,49 +457,49 @@ COPY public.telefone (cliente_id, telefones) FROM stdin;
 -- Name: categoria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categoria_id_seq', 1, false);
+SELECT pg_catalog.setval('public.categoria_id_seq', 7, true);
 
 
 --
 -- Name: cidade_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cidade_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cidade_id_seq', 3, true);
 
 
 --
 -- Name: cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cliente_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cliente_id_seq', 3, true);
 
 
 --
 -- Name: endereco_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.endereco_id_seq', 1, false);
+SELECT pg_catalog.setval('public.endereco_id_seq', 2, true);
 
 
 --
 -- Name: estado_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.estado_id_seq', 1, false);
+SELECT pg_catalog.setval('public.estado_id_seq', 2, true);
 
 
 --
 -- Name: pedido_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.pedido_id_seq', 1, false);
+SELECT pg_catalog.setval('public.pedido_id_seq', 2, true);
 
 
 --
 -- Name: produto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.produto_id_seq', 1, false);
+SELECT pg_catalog.setval('public.produto_id_seq', 11, true);
 
 
 --
